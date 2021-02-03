@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="clock">
+        <li id="sec"></li>
+        <li id="hour"></li>
+        <li id="min"></li>
+    </ul>
+</body>
+</html>
+<style>
+    #clock {
+        position: relative;
+        width: 600px;
+        height: 600px;
+        margin: 20px auto 0 auto;
+        background: url(clockface.jpg);
+        list-style: none;
+        background-repeat: no-repeat;
+        z-index: 0;
+    }
+    #sec, #min, #hour {
+        position: absolute;
+        width: 30px;
+        height: 600px;
+        top: 0;
+        left: 285px;
+    }
+    #sec {
+        background: url(sechand.png);
+        z-index: 3;
+    }
+    #min {
+        background: url(minhand.png);
+        z-index: 2;
+    }
+    #hour {
+        background: url(hourhand.png);
+        z-index: 1;
+    }
+</style>
+<script>
+    // 宣告
+    let sec = document.getElementById('sec')
+    let hour = document.getElementById('hour')
+    let min = document.getElementById('min')
+
+    // 依序為取得時間、取得角度數值、賦予角度數值、新增 style。
+    setInterval(() => {
+        let seconds = new Date().getSeconds();
+        let sdeg = seconds * 6; // 每一秒為 6 度。
+        let secrotate = `rotate(${sdeg}deg)`;
+        sec.style.transform = secrotate;
+    }, 1000)
+
+    setInterval(() => {
+        let hours = new Date().getHours();
+        let mins = new Date().getMinutes();
+        let hdeg = hours * 30 + (mins / 2); // 每小時 30 度，加上目前分鐘數。一小時60分鐘，而最多度數為30度，因此要將30度平分給60分鐘，就是30* 1/2 就是在小時中每分鐘前進的度數。例如目前50分，50* 1/2=25，現在為13點，所以13*30=390，390+25度，因此目前時針要轉415度。
+        let hourrotate = `rotate(${hdeg}deg)`;
+        hour.style.transform = hourrotate;
+    })
+
+    setInterval(() => {
+        let mins = new Date().getMinutes();
+        let mdeg = mins * 6; // 每分鐘前進 6 度。
+        let minrotate = `rotate(${mdeg}deg)`;
+        min.style.transform = minrotate;
+    })
+</script>
